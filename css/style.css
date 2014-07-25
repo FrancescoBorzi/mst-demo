@@ -1,0 +1,36 @@
+body {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.navbar {
+  margin-bottom: 10px;
+}
+
+#stepsContainer {
+  width: 800px;
+  height: 400px;
+
+  margin-left: 0;
+}
+
+#credits {
+  position: relative;
+  display: block;
+  padding: 17px 15px 13px;
+  box-sizing: border-box;
+
+  line-height: 20px;
+  background-color: transparent;
+  transition: color 0.2s ease-in-out 0s;
+}
+
+#canvasWrapper {
+  margin: auto;
+
+  width: 760px;
+  height: 400px;
+
+  border: 1px solid silver;
+  border-radius: 10px;
+}

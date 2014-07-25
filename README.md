@@ -1,4 +1,1 @@
-mst-demo
-========
-
-University Algorithm Project
+http://shinworld.altervista.org/mst-demo/index.html

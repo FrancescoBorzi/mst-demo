@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="MST Demo">
+    <meta name="author" content="Francesco Borzì, Filippo Randazzo, Sebastiano Siragusa">
+
+    <title>MST Demo</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand"><a href="index.html">Minimum Spanning Tree Algorithm Demo</a></span>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <span id="credits" class="visible-lg">~ Coded by <a target="_blank" style="color: #FF0000;" href="http://www.openprogrammers.it/"><strong>Francesco Borzì</strong></a>, <a style="color: #4249FF;" href=""><strong>Filippo Randazzo</strong></a>, <a style="color: #00D64B;" href=""><strong>Sebastiano Siragusa</strong></a> ~</span>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#" data-toggle="modal" data-target="#myModal">About</a></li>
+              <li><a target="_blank" href="https://github.com/ShinDarth/mst-demo">Source Code</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </div>
+
+      <div id="graphOptions" style="margin: auto; width: 200px; overflow: hidden;">
+        <div id="graphAlg" name="graphAlg" style="display: inline-block;">
+          <strong>Algorithm:</strong>&nbsp;
+          <select id="selectAlgorithm">
+            <option selected="selected" id="Kruskal">Kruskal</option>
+            <option id="Prim">Prim</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row" style="margin: 4px auto;">
+        <div id="graphOption" style="display: inline-block;" class="col-sm-2">
+          <p><strong>Graph:</strong></p>
+          <form>
+            <input name="graphDensity" class="graphType" value="simpleGraph" type="radio" checked="checked"><label>&nbsp;Simple</label><br>
+            <input name="graphDensity" class="graphType" value="graph1" type="radio"><label>&nbsp;Graph 1</label><br>
+            <input name="graphDensity" class="graphType" value="graph2" type="radio"><label>&nbsp;Graph 2</label><br>
+            <input name="graphDensity" class="graphType" value="graph3" type="radio"><label>&nbsp;Graph 3</label><br>
+            <input name="graphDensity" class="graphType" value="customGraph" type="radio"><label>&nbsp;Empty</label><br>
+          </form>
+          <div id="customGraph">
+            <br>
+            <p><strong>Add edge:</strong></p>
+            <p>Nodes: <input id="nodeFrom" class="editor" maxlength="5" style="width: 25px;" type="text"> &harr; <input id="nodeTo" class="editor" maxlength="5" style="width: 25px;" type="text"></p>
+            <p>Weight: <input id="edgeWeight" class="editor" maxlength="5" style="width: 25px;" type="text"></p>
+            <button style="margin-top: 5px" type="button" id="addEdge" class="btn btn-success">Add edge</button>
+            <p style="margin-top: 5px; font-size: 12px;"> <strong>Example</strong>: A -&gt; B, 10 will add an edge between A and B of weight 10.</p>
+          </div>
+        </div>
+
+        <div id="canvasWrapper" class="col-sm-8">
+          <canvas id="viewport" width="800" height="400"></canvas>
+        </div>
+
+        <div class="col-sm-2">
+          <p><strong>Load Graph from file:</strong></p>
+          <input type="file" id="files" name="files[]">
+          <p style="margin-top: 5px; font-size: 12px;"> <strong>Warning</strong>: current graph will be overwritten!</p>
+          <br>
+          <br>
+          <p><strong>Export Graph to file:</strong></p>
+          <input style="margin: 5px auto; max-width: 150px;" type="text" id="fileName" value="myGraph">
+          <p><button id="export" type="button" class="btn btn-danger">Save Graph</button></p>
+        </div>
+
+      </div>
+
+      <div class="text-center" style="margin: auto;">
+        <input id="stepByStep" name="stepByStep" type="checkbox"><label for="stepByStep">&nbsp;Step by step</label>
+        <button id="runAlg" name="runAlg" type="button" class="btn btn-primary">Start</button>
+        <button id="nextStep" name="nextStep" type="button" style="display:none" class="btn btn-success" disabled="disabled">Next step</button>
+      </div>
+
+      <hr style="margin: 5px 0 2px;">
+
+      <div class="row">
+        <div class="col-sm-2">
+          <p class="text-left lead">Step by step</p>
+          <button style="margin: auto;" id="genpdf2" class="btn btn-warning">Generate PDF</button>
+          <button style="margin: auto; display: none;" id="genpdf" class="btn btn-warning">Generate PDF</button>
+          <br>
+          <form style="margin-top: 5px; margin-bottom: 10px;">
+            <input name="pdfType" class="pdfType" value="1" type="radio" checked="checked"><label>&nbsp;1 &nbsp;step&nbsp; per page</label><br>
+            <input name="pdfType" class="pdfType" value="2" type="radio"><label>&nbsp;2 steps per page</label><br>
+          </form>
+          <button style="margin: auto; margin-top: 4px; width: 116px;" id="clearpdf" class="btn btn-info">Clear PDF</button>
+        </div>
+        <div class="col-sm-10">
+          <div id="stepsContainer"></div>
+        </div>
+      </div>
+
+    </div> <!-- /container -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">About MST Algorithm Demo</h4>
+          </div>
+          <div class="modal-body">
+            <p>Written in JavaScript by:</p>
+            <ul>
+              <li><a href="http://www.openprogrammers.it">Francesco Borzì</a></li>
+              <li>Filippo Randazzo</li>
+              <li>Sebastiano Siragusa</li>
+            </ul>
+            <p>This software is released under the <a href="https://github.com/ShinDarth/mst-demo/blob/master/LICENSE">GNU GPL v3 License</a>.</p>
+            <p>The source code is available at <a href="https://github.com/ShinDarth/mst-demo">github.com/ShinDarth/mst-demo</a>.</p>
+            <p>Software libraries used:</p>
+            <ul>
+              <li><a target="_blank" href="http://getbootstrap.com/">Bootstrap</a></li>
+              <li><a target="_blank" href="http://jquery.com/">jQuery</a></li>
+              <li><a target="_blank" href="http://arborjs.org/">Arbor.js</a></li>
+              <li><a target="_blank" href="http://jspdf.com/">jsPDF</a></li>
+              <li><a target="_blank" href="https://github.com/hongru/canvas2image">canvas2image</a></li>
+              <li><a target="_blank" href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a></li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/arbor.js"></script>
+    <script type="text/javascript" src="js/graphics.js"></script>
+    <script type="text/javascript" src="js/renderer.js"></script>
+    <script type="text/javascript" src="js/minheap.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/canvas2image.js"></script>
+    <script type="text/javascript" src="js/jspdf.debug.js"></script>
+    <script type="text/javascript" src="js/basic.js"></script>
+    <script type="text/javascript" src="js/jspdf.plugin.addimage.js"></script>
+    <script type="text/javascript" src="js/jspdf.plugin.png_support.js"></script>
+    <script type="text/javascript" src="js/FileSaver.js"></script>
+  </body>
+</html>
