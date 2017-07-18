@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="MST Demo">
-    <meta name="author" content="Francesco Borzì, Filippo Randazzo, Sebastiano Siragusa">
+    <meta name="description" content="Graph Algorithms Demo">
+    <meta name="author" content="Francesco Borzì, Filippo Randazzo, Sebastiano Siragusa, Giuseppe Ronca">
 
-    <title>MST Demo</title>
+    <title>Graph Algorithms Demo</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -32,11 +32,11 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <span class="navbar-brand"><a href="index.html">Minimum Spanning Tree Algorithm Demo</a></span>
+            <span class="navbar-brand"><a href="index.html">Graph Algorithms Demo</a></span>
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <span id="credits" class="visible-lg">~ Coded by <a target="_blank" style="color: #FF0000;" href="http://www.openprogrammers.it/"><strong>Francesco Borzì</strong></a>, <a style="color: #4249FF;" href=""><strong>Filippo Randazzo</strong></a>, <a style="color: #00D64B;" href=""><strong>Sebastiano Siragusa</strong></a> ~</span>
+              <span id="credits" class="visible-lg">~ Coded by <a target="_blank" style="color: #FF0000;" href="http://www.openprogrammers.it/"><strong>Francesco Borzì</strong></a>, <a style="color: #4249FF;" href=""><strong>Filippo Randazzo</strong></a>, <a style="color: #00D64B;" href=""><strong>Sebastiano Siragusa</strong></a>, <a style="color: #00D64B;" href="http://www.hyperweb2.com"><strong>Giuseppe Ronca</strong></a> ~</span>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -52,11 +52,29 @@
           <strong>Algorithm:</strong>&nbsp;
           <select id="selectAlgorithm">
             <option selected="selected" value="Kruskal">Kruskal (MST)</option>
-            <option value="Prims">Prim (MST)</option>
+            <option value="Prim">Prim (MST)</option>
+            <option value="Dijkstra">Dijstra (Minimum Paths)</option>
+            <option value="RNA_Folding">RNA Folding</option>
           </select>
         </div>
       </div>
 
+      <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+<textarea id="incidence_matrix" style="width:100%; height: 200px">
+// incidence graph matrix 
+// use a value higher than 1 to define a weight
+var Matrix_Labels=["C","B","A"];
+var Matrix_Incidence=[
+    [ 0 , 4 , 3 ], // C
+    [ 4 , 0 , 2 ], // B
+    [ 3 , 2 , 0 ], // A
+];
+</textarea>
+            </div>
+            <div class="col-sm-2"></div>
+      </div>
       <div class="row" style="margin: 4px auto;">
         <div id="graphOption" style="display: inline-block;" class="col-sm-2">
           <p><strong>Graph:</strong></p>
@@ -78,7 +96,7 @@
         </div>
 
         <div id="canvasWrapper" class="col-sm-8">
-          <canvas id="viewport" width="800" height="400"></canvas>
+              <canvas id="viewport" width="800" height="400"></canvas>
         </div>
 
         <div class="col-sm-2">
@@ -127,7 +145,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">About MST Algorithm Demo</h4>
+            <h4 class="modal-title" id="myModalLabel">About Graph Algorithms Demo</h4>
           </div>
           <div class="modal-body">
             <p>Written in JavaScript by:</p>
@@ -154,7 +172,7 @@
         </div>
       </div>
     </div>
-
+    <script type="text/javascript" src="js/libs/js-class.build.js"></script>
     <script type="text/javascript" src="js/libs/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="js/libs/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/libs/arbor.js"></script>
@@ -168,7 +186,10 @@
     <script type="text/javascript" src="js/libs/jspdf.plugin.png_support.js"></script>
     <script type="text/javascript" src="js/libs/FileSaver.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/AlgBase.js"></script>
     <script type="text/javascript" src="js/algorithms/kruskal.js"></script>
     <script type="text/javascript" src="js/algorithms/prim.js"></script>
+    <script type="text/javascript" src="js/algorithms/rna_folding.js"></script>
+    <script type="text/javascript" src="js/algorithms/dijkstra.js"></script>
   </body>
 </html>

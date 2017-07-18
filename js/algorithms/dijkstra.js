@@ -1,13 +1,14 @@
 'use strict';
 
-graphAlgs.Prim = $.public.class.extends(AlgBase)([
+graphAlgs.Dijkstra = $.public.class.extends(AlgBase)([
     $.public({
         algorithm: function () {
             var that = this;
+
             var u = this.i.minH.pop();
 
             if (u.data.parent !== null) {
-                var treeEdge = this.i.graph.getEdges(u.data.parent, u);
+                var treeEdge = this.i.graph.getEdges(u.data.parentName, u);
                 treeEdge[0].data.color = "#4895FA";
                 treeEdge[0].data.weight = 2;
             }
@@ -17,10 +18,14 @@ graphAlgs.Prim = $.public.class.extends(AlgBase)([
                 function (edge, index, adjArray) {
                     var v = edge.target;
                     var vIndex = that.i.minH.exists(v);
-                    if ((vIndex !== false) && (edge.data.cost < v.data.key)) {
-                        v.data.key = Number(edge.data.cost);
-                        v.data.parent = u.name;
-                        v.data.label = v.name + ', ' + v.data.key + ', ' + v.data.parent;
+
+                    var totalCost = edge.data.cost + u.data.key;
+
+                    if ((vIndex !== false) && (totalCost < v.data.key)) {
+                        v.data.key = Number(totalCost);
+                        v.data.parent = u;
+                        v.data.parentName = u.name;
+                        v.data.label = v.name + ', ' + totalCost + ', ' + v.data.parentName;
                         that.i.minH.siftUp(vIndex);
                     }
                 }
@@ -28,7 +33,7 @@ graphAlgs.Prim = $.public.class.extends(AlgBase)([
         },
 
         __construct: function (graph) {
-            this.__super(graph, true, false);
+            this.__super(graph, true, true);
         },
 
         process: function () {
@@ -36,8 +41,10 @@ graphAlgs.Prim = $.public.class.extends(AlgBase)([
 
             this.i.resetGraph();
 
+            // while queue is not empty
             while (this.i.minH.size() > 0) {
                 this.i.algorithm();
+                // redraw the graph
                 this.i.graph.renderer.redraw();
             }
 
@@ -74,10 +81,17 @@ graphAlgs.Prim = $.public.class.extends(AlgBase)([
             this.i.root = undefined;
 
             var sum = 1;
-
             this.i.graph.eachEdge(
                 function (edge, pt1, pt2) {
                     sum += edge.data.cost;
+                }
+            );
+
+            // set all nodes to max value
+            this.i.graph.eachNode(
+                function (node, pt) {
+                    node.data.key = sum;
+                    node.data.parent = null;
                 }
             );
 
@@ -87,16 +101,11 @@ graphAlgs.Prim = $.public.class.extends(AlgBase)([
                 }
             })
 
-            this.i.graph.eachNode(
-                function (node, pt) {
-                    node.data.key = sum;
-                    node.data.parent = null;
-                }
-            );
             that.i.root.data.key = 0;
             that.i.root.data.color = "red";
-            that.i.root.data.label = that.i.root.name + ', ' + that.i.root.data.key + ', ' + that.i.root.data.parent;
+            that.i.root.data.label = that.i.root.name + ', ' + that.i.root.data.key + ', ' + null;
 
+            // insert all nodes into priority queue (using heap)
             this.i.graph.eachNode(
                 function (node, pt) {
                     that.i.minH.push(node);
